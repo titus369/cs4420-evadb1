@@ -43,6 +43,8 @@ Copy the following Python code to a file called run_evadb.py.
 
 The program runs a SQL query for listing all the built-in functions in EvaDB. It consists of importing and connecting to EvaDB, and then running the query. The query’s result is returned as a Dataframe.
 
+
+----
 # Import the EvaDB package
 import evadb
 
@@ -51,6 +53,7 @@ cursor = evadb.connect().cursor()
 
 # List all the built-in functions in EvaDB
 print(cursor.query("SHOW FUNCTIONS;").df())
+----
 Now, run the Python program:
 
 python -m run_evadb.py
