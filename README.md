@@ -1,91 +1,78 @@
-Install EvaDB
-To install EvaDB, we recommend using the pip package manager. EvaDB only supports Python versions greater than or equal to 3.9.
+# Home Loan Default Predictor
 
-1. Create a new virtual environment called evadb-venv.
+## Introduction
 
-python -m venv evadb-venv
-Warning
+In today’s society, one common way to afford homes and cars is by taking out a loan. An institution that accepts a loan from a customer takes some risk as it is possible that the customer cannot repay the loan. Given a list of factors related to the borrower, a machine learning model can help an institution know whether or not the borrower will be able to repay the loan. The goal of this project is to form a machine learning model that takes in a dataset of borrowers and outputs whether a user with certain factors will be able to repay the loan.
 
-EvaDB only supports Python versions greater than or equal to 3.9. You can check the version of your Python interpreter by running python –version on the terminal.
+## Data Collection
 
-Now, activate the virtual environment:
+### Project 1
 
-source evadb-venv/bin/activate
-Once inside the virtual environment, run the command below to mitigate the dependency issues.
+The dataset used for this model is a [Kaggle dataset](https://www.kaggle.com/datasets/yasserh/loan-default-dataset). In Project 1, the data was originally set up in PostgreSQL manually in pgAdmin 4. Two tables, loan_default and loan_default_lite were created. The first table contained all 150,000 rows and 34 columns from the Kaggle CSV file. The second table consisted of only 5000 rows at random to create a more compact dataset.
 
-pip install --upgrade pip setuptools wheel
-Install EvaDB
+To connect the PostgreSQL database with EvaDB, we originally used the following block fo code:
+'''
+params = {
+    "user": "postgres",
+    "password": "", # enter PostgreSQL password here
+    "host": "localhost",
+    "port": "5432",
+    "database": "Home Loan",
+}
+query = f"CREATE DATABASE IF NOT EXISTS pg WITH ENGINE = 'postgres', PARAMETERS = {params};"
+#print(query)
+#cursor.query(query).df()
+print(cursor.query(query).df())
+'''
 
-pip install --upgrade evadb
-Note
+### Project 2
 
-The –upgrade option ensure that the latest version of EvaDB is installed.
+In Project 2, the data was set up in PostgreSQL through the following Jupyter notebook commands:
+'''
+!sudo -u postgres psql -c "CREATE USER eva WITH SUPERUSER PASSWORD 'password'"
+!sudo -u postgres psql -c "CREATE DATABASE evadb"
 
-Verify EvaDB installation
+params = {
+    "user": "eva",
+    "password": "password", # enter PostgreSQL password here
+    "host": "localhost",
+    "port": "5432",
+    "database": "evadb",
+}
+query = f"CREATE DATABASE IF NOT EXISTS pg WITH ENGINE = 'postgres', PARAMETERS = {params};"
+#print(query)
+print(cursor.query(query).df())
+'''
 
-pip freeze
-You should see a list of installed packages including but not limited to the following:
+We then upload the CSV to the PostgreSQL database using the following queries in EvaDB:
+'''
+cursor.query("""
+  USE pg {
+    CREATE TABLE IF NOT EXISTS loan_default (id VARCHAR(20), year INT, loan_limit VARCHAR(20),
+    gender VARCHAR(20), approv_in_adv VARCHAR(10), loan_type VARCHAR(10), loan_purpose VARCHAR(10),
+    credit_worthiness VARCHAR(10), open_credit VARCHAR(10), business_or_commercial VARCHAR(10),
+    loan_amount FLOAT, rate_of_interest FLOAT, interest_rate_spread FLOAT, upfront_charges FLOAT, term FLOAT,
+    neg_ammortization VARCHAR(10), interest_only VARCHAR(10), lump_sum_payment VARCHAR(10),
+    property_value FLOAT, construction_type VARCHAR(10), occupancy_type VARCHAR(10), secured_by VARCHAR(10),
+    total_units VARCHAR(10), income FLOAT, credit_type VARCHAR(10), credit_score INT,
+    co_applicant_credit_type VARCHAR(10), age VARCHAR(10), submission_of_application VARCHAR(10), ltv FLOAT,
+    region VARCHAR(10), security_type VARCHAR(15), status INTEGER, dtir1 FLOAT)
+  }
+""").df()
 
-Package           Version
------------------ -------
-aenum             3.1.15
-decorator         5.1.1
-diskcache         5.6.3
-evadb             0.3.7
-greenlet          2.0.2
-lark              1.1.7
-numpy             1.25.2
-pandas            2.1.0
-...
-Run EvaDB
-
-Copy the following Python code to a file called run_evadb.py.
-
-The program runs a SQL query for listing all the built-in functions in EvaDB. It consists of importing and connecting to EvaDB, and then running the query. The query’s result is returned as a Dataframe.
-
-
-----
-# Import the EvaDB package
-import evadb
-
-# Connect to EvaDB and get a database cursor for running queries
-cursor = evadb.connect().cursor()
-
-# List all the built-in functions in EvaDB
-print(cursor.query("SHOW FUNCTIONS;").df())
-----
-Now, run the Python program:
-
-python -m run_evadb.py
-You should see a list of built-in functions (with different filenames) including but not limited to the following:
-
-        name                                             inputs  ...                                               impl metadata
-0  ArrayCount   [Input_Array NDARRAY ANYTYPE (), Search_Key ANY]  ...  /home/username/evadb/evadb-venv/functions/ndarray/array...       []
-1        Crop  [Frame_Array NDARRAY UINT8 (3, None, None), bb...  ...   /home/username/evadb/evadb-venv/functions/ndarray/crop.py       []
-2     ChatGPT  [query NDARRAY STR (1,), content NDARRAY STR (...  ...        /home/username/evadb/evadb/evadb-venv/chatgpt.py       []
-
-[3 rows x 6 columns]
-Note
-
-Go over the Python API page to learn more about connect() and cursor.
-
-Note
-
-EvaDB supports additional installation options for extending its functionality. Go over the Installation Options page for all the available options.
-
-Illustrative AI Query
-Here is an illustrative EvaQL query that analyzes the sentiment of restaurant food reviews and responds to them.
-
---- This AI query analyses the sentiment of restaurant food reviews stored
---- in a database table and generates a response to negative food reviews
---- using another ChatGPT call to address the concerns shared in the review
-SELECT
-    ChatGPT("Respond to the review with a solution to address the reviewer's concern",
-    review)
-FROM
-    postgres_data.review_table
-WHERE
-    ChatGPT("Is the review positive or negative?", review) = "negative";
-More details on this usecase is available in the Sentiment Analysis page.
-
-Try out EvaDB by experimenting with the complete sentiment analysis notebook on Colab 🙂
+cursor.query("""
+  USE pg {
+    COPY loan_default (id, year, loan_limit,
+    gender, approv_in_adv, loan_type, loan_purpose,
+    credit_worthiness, open_credit, business_or_commercial,
+    loan_amount, rate_of_interest, interest_rate_spread, upfront_charges, term,
+    neg_ammortization, interest_only, lump_sum_payment,
+    property_value, construction_type, occupancy_type, secured_by,
+    total_units, income, credit_type, credit_score,
+    co_applicant_credit_type, age, submission_of_application, ltv,
+    region, security_type, status, dtir1)
+    FROM '/content/Loan_Default.csv'
+    DELIMITER ',' CSV HEADER
+  }
+""").df()
+'''
