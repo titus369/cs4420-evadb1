@@ -11,7 +11,7 @@ In today’s society, one common way to afford homes and cars is by taking out a
 The dataset used for this model is a [Kaggle dataset](https://www.kaggle.com/datasets/yasserh/loan-default-dataset). In Project 1, the data was originally set up in PostgreSQL manually in pgAdmin 4. Two tables, loan_default and loan_default_lite were created. The first table contained all 150,000 rows and 34 columns from the Kaggle CSV file. The second table consisted of only 5000 rows at random to create a more compact dataset.
 
 To connect the PostgreSQL database with EvaDB, we originally used the following block fo code:
-'''
+```
 params = {
     "user": "postgres",
     "password": "", # enter PostgreSQL password here
@@ -23,12 +23,12 @@ query = f"CREATE DATABASE IF NOT EXISTS pg WITH ENGINE = 'postgres', PARAMETERS 
 #print(query)
 #cursor.query(query).df()
 print(cursor.query(query).df())
-'''
+```
 
 ### Project 2
 
 In Project 2, the data was set up in PostgreSQL through the following Jupyter notebook commands:
-'''
+```
 !sudo -u postgres psql -c "CREATE USER eva WITH SUPERUSER PASSWORD 'password'"
 !sudo -u postgres psql -c "CREATE DATABASE evadb"
 
@@ -42,10 +42,10 @@ params = {
 query = f"CREATE DATABASE IF NOT EXISTS pg WITH ENGINE = 'postgres', PARAMETERS = {params};"
 #print(query)
 print(cursor.query(query).df())
-'''
+```
 
 We then upload the CSV to the PostgreSQL database using the following queries in EvaDB:
-'''
+```
 cursor.query("""
   USE pg {
     CREATE TABLE IF NOT EXISTS loan_default (id VARCHAR(20), year INT, loan_limit VARCHAR(20),
@@ -75,4 +75,4 @@ cursor.query("""
     DELIMITER ',' CSV HEADER
   }
 """).df()
-'''
+```
