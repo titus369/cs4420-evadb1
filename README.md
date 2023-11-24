@@ -6,6 +6,27 @@ In today’s society, one common way to afford homes and cars is by taking out a
 
 The inspiration for this project came from [Ibrahim Ogunbiyi's HashNode blog](https://folksconnect.hashnode.dev/predicting-loan-default-using-mindsdb-postgresql-and-streamlit) which utilized MindsDb to accomplish a similar goal of providing a machine learning prediction model to predict whether a borrower can repay their loan. MindsDB and EvaDB are both systems that provide a SQL interface to accomplish AI tasks from within the database system. MindsDB offers a richer set of integrations, but EvaDB should offer higher performance and GPU utilization.
 
+This project is run in a Jupyter notebook. To set up this program, PostgreSQL and EvaDB need to be set up along with a few other packages necessary to get the commands to work. First, to get PostgreSQL set up, we will run the following commands:
+
+```
+!apt -qq install postgresql
+!service postgresql start
+```
+
+Next, we will install various dependencies along before downloading EvaDB. This project uses EvaDB 0.3.9 which requires Python 3.9 or later. However, EvaDB's Ludwig requires a version of Numpy that is not compatible for Python 3.11 or later. Therefore, in this project Python 3.10 is used. Check the Requirements.txt file for specific versions used in this project. Run the following to install EvaDB:
+
+```
+%pip install fastapi
+%pip install kaleido
+%pip install python-multipart
+%pip install jedi
+%pip install uvicorn
+%pip install --upgrade pip setuptools wheel
+%pip install --upgrade evadb
+
+%pip install psycopg2
+```
+
 ## Data Collection
 
 The dataset used for this model is a [Kaggle dataset](https://www.kaggle.com/datasets/yasserh/loan-default-dataset). The dataset is a CSV with 150,000 rows and 34 columns. The columns will be used to help predict whether or not a user will be able to repay a loan, which is defined by the Status column.
