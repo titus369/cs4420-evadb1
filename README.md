@@ -4,7 +4,9 @@
 
 In today’s society, one common way to afford homes and cars is by taking out a loan. An institution that accepts a loan from a customer takes some risk as it is possible that the customer cannot repay the loan. Given a list of factors related to the borrower, a machine learning model can help an institution know whether or not the borrower will be able to repay the loan. The purpose of this project is to take in a set of data and predict whether a user will or will not be able to repay their loan given a specific set of factors. We will use PostgreSQL to collect the home loan default dataset and connect the PostgreSQL database with EvaDB. We will then import EvaDB's Ludwig to create a machine learning prediction model.
 
-The inspiration for this project came from [Ibrahim Ogunbiyi's HashNode blog](https://folksconnect.hashnode.dev/predicting-loan-default-using-mindsdb-postgresql-and-streamlit) which utilized MindsDb to accomplish a similar goal of providing a machine learning prediction model to predict whether a borrower can repay their loan. MindsDB and EvaDB are both systems that provide a SQL interface to accomplish AI tasks from within the database system. MindsDB offers a richer set of integrations, but EvaDB should offer higher performance and GPU utilization.
+The inspiration for this project came from [Ibrahim Ogunbiyi's HashNode blog](https://folksconnect.hashnode.dev/predicting-loan-default-using-mindsdb-postgresql-and-streamlit) which utilized MindsDB to accomplish a similar goal of providing a machine learning prediction model to predict whether a borrower can repay their loan. MindsDB and EvaDB are both systems that provide a SQL interface to accomplish AI tasks from within the database system. MindsDB offers a richer set of integrations, but EvaDB should offer higher performance and GPU utilization.
+
+## Setup
 
 This project is run in a Jupyter notebook. To set up this program, PostgreSQL and EvaDB need to be set up along with a few other packages necessary to get the commands to work. First, to get PostgreSQL set up, we will run the following commands:
 
