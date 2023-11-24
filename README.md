@@ -142,5 +142,8 @@ cursor.query("""
 # References
 
 * Kakkar, Gaurav T. (2023, August 13). MindsDB vs. Evadb. Evadb Blog. Retrieved from https://medium.com/evadb-blog/mindsdb-vs-evadb-9005c7a9ffd1
-* Ogunbiyi, Ibrahim (2023, April 28). Predicting Loan Default Using MindsDB, PostgreSQL, and Streamlit. FolksConnect. Retrieved from https://folksconnect.hashnode.dev/predicting-loan-default-using-mindsdb-postgresql-and-streamlit
+* Ogunbiyi, Ibrahim. (2023, April 28). Predicting Loan Default Using MindsDB, PostgreSQL, and Streamlit. FolksConnect. Retrieved from https://folksconnect.hashnode.dev/predicting-loan-default-using-mindsdb-postgresql-and-streamlit
 * Yasser H. (2021). Loan Default Dataset. Kaggle. https://www.kaggle.com/datasets/yasserh/loan-default-dataset
+* Evadb Documentation. (2023). Evadb. https://evadb.readthedocs.io/en/stable/source/overview/getting-started.html
+* Evadb Documentation. (2023). Classification Use Case - Homerental Predict. Evadb. https://evadb.readthedocs.io/en/stable/source/usecases/classification.html#homerental-predict
+* Evadb Documentation. (2023). Model Training with Ludwig. Evadb. https://evadb.readthedocs.io/en/stable/source/reference/ai/model-train-ludwig.html#ludwig
