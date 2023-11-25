@@ -250,7 +250,8 @@ cursor.query("""
 Note that when adjusting these queries, the status field should be set to 0 and not to NULL to allow for the prediction function to work. For example, the following table will result in the predicted status shown below the table:
 
 ```
-	income	interest_rate_spread	credit_score	property_value	upfront_charges	term	ltv	loan_amount	rate_of_interest	status	...	year	loan_limit	gender	approv_in_adv	loan_type	loan_purpose	credit_worthiness	open_credit	business_or_commercial	neg_ammortization
+
+income	interest_rate_spread	credit_score	property_value	upfront_charges	term	ltv	loan_amount	rate_of_interest	status	...	year	loan_limit	gender	approv_in_adv	loan_type	loan_purpose	credit_worthiness	open_credit	business_or_commercial	neg_ammortization
 0	4980.0	NaN	552	NaN	NaN	360.0	NaN	206500.0	NaN	0	...	2019	cf	Male	nopre	type2	P1	l1	nopc	b/c	not_neg
 1	11400.0	0.3849	579	658000.0	635.14	360.0	80.0152	526500.0	3.99	0	...	2019	cf	MALE	nopre	type1	P4	l1	nopc	nob/c	not_neg
 2	11400.0	0.3849	579	658000.0	635.14	360.0	80.0152	526500.0	3.99	0	...	2019	cf	MALE	nopre	type1	P4	l1	nopc	nob/c	not_neg
