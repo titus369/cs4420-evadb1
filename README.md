@@ -139,7 +139,58 @@ cursor.query("""
 """).df()
 ```
 
-## Results
+## Training Our ML Model
+
+The tool that we will use to train the model is EvaDB's Ludwig. We will need to download this extra EvaDB dependency, which we have done as shown below:
+
+```
+%pip install --quiet "evadb[document, forecasting, ludwig]"
+```
+
+We then create a Prediction function using Ludwig and have the training model run for an hour, or 3600 seconds. This is done using the code below:
+
+```
+cursor.query("""CREATE OR REPLACE FUNCTION DefaultPredictor FROM
+( SELECT * FROM pg.loan_default)
+TYPE Ludwig
+PREDICT 'status'
+TIME_LIMIT 3600;
+""").df()
+```
+
+## Results and Analysis
+
+To use this model, we run a few extra queries. The first way that we can do this is by running the model directly on the loan_default table we created during data processing. Using the below command, we can run the prediction function on the first 15 rows of the loan_default table:
+```
+cursor.query("SELECT DefaultPredictor(*) FROM pg.loan_default LIMIT 15;").df()
+```
+
+```
+status_predictions
+0	True
+1	True
+2	True
+3	True
+4	True
+5	True
+6	True
+7	True
+8	True
+9	True
+10	True
+11	True
+12	True
+13	False
+14	False
+```
+
+We can then compare these True/False values for the predicted status with the actual status found on the table using the following query:
+```
+cursor.query("""
+  SELECT status, status_predictions FROM pg.loan_default
+  JOIN LATERAL DefaultPredictor(*) AS Predicted(status_predictions) LIMIT 15;
+""").df()
+```
 
 ```
 	status	status_predictions
