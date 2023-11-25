@@ -153,6 +153,11 @@ cursor.query("""
 7	0	False
 8	1	True
 9	1	True
+10	0	False
+11	0	False
+12	0	False
+13	0	False
+14	0	False
 ```
 
 ## References
