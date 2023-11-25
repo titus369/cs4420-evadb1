@@ -139,6 +139,22 @@ cursor.query("""
 """).df()
 ```
 
+#Results
+
+```
+	status	status_predictions
+0	1	True
+1	1	True
+2	0	False
+3	0	False
+4	0	False
+5	0	False
+6	0	False
+7	0	False
+8	1	True
+9	1	True
+```
+
 # References
 
 * Kakkar, Gaurav T. (2023, August 13). MindsDB vs. Evadb. Evadb Blog. Retrieved from https://medium.com/evadb-blog/mindsdb-vs-evadb-9005c7a9ffd1
