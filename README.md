@@ -247,15 +247,80 @@ cursor.query("""
 """).df()
 ```
 
-Note that when adjusting these queries, the status field should be set to 0 and not to NULL to allow for the prediction function to work. For example, the following table will result in the predicted status shown below the table:
+Note that when adjusting these queries, the status field should be set to 0 and not to NULL to allow for the prediction function to work. For example, the table created from the following queries will result in the predicted status shown below the table:
 
 ```
+cursor.query("""
+  USE pg {
+    INSERT INTO home_loan_default_predictions
+    (id, year, loan_limit, gender, approv_in_adv, loan_type, loan_purpose,
+     credit_worthiness, open_credit, business_or_commercial, loan_amount,
+     rate_of_interest, interest_rate_spread, upfront_charges, term,
+     neg_ammortization, interest_only, lump_sum_payment, property_value,
+     construction_type, occupancy_type, secured_by, total_units, income,
+     credit_type, credit_score, co_applicant_credit_type, age,
+     submission_of_application, ltv, region, security_type, status, dtir1)
+    VALUES (
+      '173660', '2019', 'cf', 'Male', 'nopre', 'type2', 'P1', 'l1', 'nopc', 'b/c',
+      '206500', NULL, NULL, NULL, '360', 'not_neg', 'not_int', 'lpsm', NULL, 'sb', 'pr',
+      'home', '1U', '4980', 'EQUI', '552', 'EXP', '55-64', 'to_inst', NULL, 'North', 'direct', 0, NULL
+    )
+  }
+""").df()
 
-income	interest_rate_spread	credit_score	property_value	upfront_charges	term	ltv	loan_amount	rate_of_interest	status	...	year	loan_limit	gender	approv_in_adv	loan_type	loan_purpose	credit_worthiness	open_credit	business_or_commercial	neg_ammortization
-0	4980.0	NaN	552	NaN	NaN	360.0	NaN	206500.0	NaN	0	...	2019	cf	Male	nopre	type2	P1	l1	nopc	b/c	not_neg
-1	11400.0	0.3849	579	658000.0	635.14	360.0	80.0152	526500.0	3.99	0	...	2019	cf	MALE	nopre	type1	P4	l1	nopc	nob/c	not_neg
-2	11400.0	0.3849	579	658000.0	635.14	360.0	80.0152	526500.0	3.99	0	...	2019	cf	MALE	nopre	type1	P4	l1	nopc	nob/c	not_neg
-3	11400.0	0.3849	579	658000.0	635.14	360.0	80.0152	526500.0	3.99	0	...	2019	cf	FEMALE	nopre	type1	P4	l1	nopc	nob/c	not_neg
+cursor.query("""
+  USE pg {
+    INSERT INTO home_loan_default_predictions
+    (id, year, loan_limit, gender, approv_in_adv, loan_type, loan_purpose,
+     credit_worthiness, open_credit, business_or_commercial, loan_amount,
+     rate_of_interest, interest_rate_spread, upfront_charges, term,
+     neg_ammortization, interest_only, lump_sum_payment, property_value,
+     construction_type, occupancy_type, secured_by, total_units, income,
+     credit_type, credit_score, co_applicant_credit_type, age,
+     submission_of_application, ltv, region, security_type, status, dtir1)
+    VALUES (
+      '173661', '2019', 'cf', 'MALE', 'nopre', 'type1', 'P4', 'l1', 'nopc', 'nob/c',
+      '526500', '3.99', '0.3849', '635.14', 360, 'not_neg', 'not_int', 'not_lpsm', '658000', 'sb', 'pr',
+      'home', '1U', '11400', 'CRIF', '579', 'CIB', '<25', 'not_inst', '80.0152', 'south', 'direct', 0, '29'
+    )
+  }
+""").df()
+
+cursor.query("""
+  USE pg {
+    INSERT INTO home_loan_default_predictions
+    (id, year, loan_limit, gender, approv_in_adv, loan_type, loan_purpose,
+     credit_worthiness, open_credit, business_or_commercial, loan_amount,
+     rate_of_interest, interest_rate_spread, upfront_charges, term,
+     neg_ammortization, interest_only, lump_sum_payment, property_value,
+     construction_type, occupancy_type, secured_by, total_units, income,
+     credit_type, credit_score, co_applicant_credit_type, age,
+     submission_of_application, ltv, region, security_type, status, dtir1)
+    VALUES (
+      '173661', '2019', 'cf', 'MALE', 'nopre', 'type1', 'P4', 'l1', 'nopc', 'nob/c',
+      '526500', '3.99', '0.3849', '635.14', 360, 'not_neg', 'not_int', 'lpsm', '658000', 'sb', 'pr',
+      'home', '1U', '11400', 'CRIF', '579', 'CIB', '<25', 'not_inst', '80.0152', 'south', 'direct', 0, '29'
+    )
+  }
+""").df()
+
+cursor.query("""
+  USE pg {
+    INSERT INTO home_loan_default_predictions
+    (id, year, loan_limit, gender, approv_in_adv, loan_type, loan_purpose,
+     credit_worthiness, open_credit, business_or_commercial, loan_amount,
+     rate_of_interest, interest_rate_spread, upfront_charges, term,
+     neg_ammortization, interest_only, lump_sum_payment, property_value,
+     construction_type, occupancy_type, secured_by, total_units, income,
+     credit_type, credit_score, co_applicant_credit_type, age,
+     submission_of_application, ltv, region, security_type, status, dtir1)
+    VALUES (
+      '173661', '2019', 'cf', 'FEMALE', 'nopre', 'type1', 'P4', 'l1', 'nopc', 'nob/c',
+      '526500', '3.99', '0.3849', '635.14', 360, 'not_neg', 'not_int', 'not_lpsm', '658000', 'sb', 'pr',
+      'home', '1U', '11400', 'CRIF', '579', 'CIB', '<25', 'not_inst', '80.0152', 'south', 'direct', 0, '29'
+    )
+  }
+""").df()
 ```
 
 ```
