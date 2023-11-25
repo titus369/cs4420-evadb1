@@ -211,6 +211,60 @@ cursor.query("""
 14	0	False
 ```
 
+The second way of using this prediction function is to have a user manually enter in a set of data into a new table by adjusting the following query:
+
+```
+cursor.query("""
+  USE pg {
+    CREATE TABLE IF NOT EXISTS home_loan_default_predictions (id VARCHAR(20), year VARCHAR(20), loan_limit VARCHAR(20),
+    gender VARCHAR(20), approv_in_adv VARCHAR(10), loan_type VARCHAR(10), loan_purpose VARCHAR(10),
+    credit_worthiness VARCHAR(10), open_credit VARCHAR(10), business_or_commercial VARCHAR(10),
+    loan_amount FLOAT, rate_of_interest FLOAT, interest_rate_spread FLOAT, upfront_charges FLOAT, term FLOAT,
+    neg_ammortization VARCHAR(10), interest_only VARCHAR(10), lump_sum_payment VARCHAR(10),
+    property_value FLOAT, construction_type VARCHAR(10), occupancy_type VARCHAR(10), secured_by VARCHAR(10),
+    total_units VARCHAR(10), income FLOAT, credit_type VARCHAR(10), credit_score INT,
+    co_applicant_credit_type VARCHAR(10), age VARCHAR(10), submission_of_application VARCHAR(10), ltv FLOAT,
+    region VARCHAR(10), security_type VARCHAR(15), status INTEGER, dtir1 FLOAT)
+  }
+""").df()
+
+cursor.query("""
+  USE pg {
+    INSERT INTO home_loan_default_predictions
+    (id, year, loan_limit, gender, approv_in_adv, loan_type, loan_purpose,
+     credit_worthiness, open_credit, business_or_commercial, loan_amount,
+     rate_of_interest, interest_rate_spread, upfront_charges, term,
+     neg_ammortization, interest_only, lump_sum_payment, property_value,
+     construction_type, occupancy_type, secured_by, total_units, income,
+     credit_type, credit_score, co_applicant_credit_type, age,
+     submission_of_application, ltv, region, security_type, status, dtir1)
+    VALUES (
+      '173660', '2019', 'cf', 'Male', 'nopre', 'type2', 'P1', 'l1', 'nopc', 'b/c',
+      '206500', NULL, NULL, NULL, '360', 'not_neg', 'not_int', 'lpsm', NULL, 'sb', 'pr',
+      'home', '1U', '4980', 'EQUI', '552', 'EXP', '55-64', 'to_inst', NULL, 'North', 'direct', 0, NULL
+    )
+  }
+""").df()
+```
+
+Note that when adjusting these queries, the status field should be set to 0 and not to NULL to allow for the prediction function to work. For example, the following table will result in the predicted status shown below the table:
+
+```
+	income	interest_rate_spread	credit_score	property_value	upfront_charges	term	ltv	loan_amount	rate_of_interest	status	...	year	loan_limit	gender	approv_in_adv	loan_type	loan_purpose	credit_worthiness	open_credit	business_or_commercial	neg_ammortization
+0	4980.0	NaN	552	NaN	NaN	360.0	NaN	206500.0	NaN	0	...	2019	cf	Male	nopre	type2	P1	l1	nopc	b/c	not_neg
+1	11400.0	0.3849	579	658000.0	635.14	360.0	80.0152	526500.0	3.99	0	...	2019	cf	MALE	nopre	type1	P4	l1	nopc	nob/c	not_neg
+2	11400.0	0.3849	579	658000.0	635.14	360.0	80.0152	526500.0	3.99	0	...	2019	cf	MALE	nopre	type1	P4	l1	nopc	nob/c	not_neg
+3	11400.0	0.3849	579	658000.0	635.14	360.0	80.0152	526500.0	3.99	0	...	2019	cf	FEMALE	nopre	type1	P4	l1	nopc	nob/c	not_neg
+```
+
+```
+	status_predictions
+0	True
+1	False
+2	False
+3	False
+```
+
 ## References
 
 * Kakkar, Gaurav T. (2023, August 13). MindsDB vs. Evadb. Evadb Blog. Retrieved from https://medium.com/evadb-blog/mindsdb-vs-evadb-9005c7a9ffd1
